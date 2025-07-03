@@ -66,7 +66,7 @@ export const GlitterCursor = ({ isDark }: GlitterCursorProps) => {
       {glitterParticles.map((particle) => (
         <div
           key={particle.id}
-          className={`fixed pointer-events-none z-50 w-3 h-3`}
+          className={`fixed pointer-events-none z-[60] w-3 h-3`}
           style={{
             left: particle.x - 6,
             top: particle.y - 6,
