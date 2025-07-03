@@ -10,7 +10,7 @@ export const experiences: Experience[] = [
     title: "Software Engineering Intern",
     company: "Intellectra AI.",
     period: "June 2025 - Present",
-    description: "Developed scalable web applications and improved system performance by 40%",
+    description: "Enhanced website performance and built responsive company website with custom styling. To be updated!",
   },
   {
     title: "Freelance",

@@ -6,6 +6,7 @@ export interface Project {
   features: string[]
   github: string
   demo: string
+  colab?: string
   image: string
   status: "Completed" | "In Progress" | "Planned"
   timeline: string
@@ -58,17 +59,37 @@ export const projects: Project[] = [
       "A personal portfolio website built with Next.js to showcase projects, writing, and interactive coding demos.",
     longDescription:
       "Revolutionary voting system built on blockchain technology, featuring smart contracts for vote validation and transparent result tracking.",
-    tech: ["Next.js", "Tailwind", "React", "TypeScript", "Framer Motion", "Shadcn/UI", "Vercel"],
+    tech: ["Next.js", "Tailwind", "React", "TypeScript", "Github", "Github Pages"],
     features: [
       "Responsive design",
       "Interactive project previews",
       "Project showcase",
       "Dark mode toggle",
     ],
+    github: "https://github.com/e-deng/portfolio-website--2-",
+    demo: "https://github.com/e-deng/portfolio-website--2-",
+    image: "/placeholder.svg?height=300&width=400",
+    status: "In Progress",
+    timeline: "Always improving!",
+  },
+  {
+    title: "Sleep Apnea and Insomnia Detection",
+    description:
+      "A data-driven analysis using machine learning to uncover lifestyle and health factors affecting sleep quality and disorders like insomnia and sleep apnea.",
+    longDescription:
+      "Revolutionary voting system built on blockchain technology, featuring smart contracts for vote validation and transparent result tracking.",
+    tech: ["Python", "Jupyter Notebook", "Google Colab"],
+    features: [
+      "correlation heatmap analysis",
+      "Demographic-based sleep segmentation",
+      "Predictive ML model for sleep risk",
+      "Lifestyle behavior impact insights and recommendations",
+    ],
     github: "#",
-    demo: "#",
+    colab: "https://colab.research.google.com/drive/1RW2VGpd7jdXdp0BonqoliLTRUaJBpFAh?usp=sharing",
+    demo: "",
     image: "/placeholder.svg?height=300&width=400",
     status: "Completed",
-    timeline: "1 week",
+    timeline: "2 months",
   },
 ] 

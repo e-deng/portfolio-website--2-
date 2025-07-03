@@ -1,7 +1,6 @@
 "use client"
 
 import { useState, useEffect, useRef } from "react"
-import { motion } from "framer-motion"
 import { Sparkles } from "lucide-react"
 
 interface GlitterCursorProps {
@@ -9,7 +8,6 @@ interface GlitterCursorProps {
 }
 
 export const GlitterCursor = ({ isDark }: GlitterCursorProps) => {
-  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 })
   const [glitterParticles, setGlitterParticles] = useState<
     Array<{
       id: number
@@ -25,8 +23,6 @@ export const GlitterCursor = ({ isDark }: GlitterCursorProps) => {
 
   useEffect(() => {
     const handleMouseMove = (e: MouseEvent) => {
-      setMousePosition({ x: e.clientX, y: e.clientY })
-
       // Create multiple particles per movement for a denser trail
       for (let i = 0; i < 3; i++) {
         const newParticle = {
@@ -66,17 +62,7 @@ export const GlitterCursor = ({ isDark }: GlitterCursorProps) => {
 
   return (
     <>
-      {/* Main cursor dot */}
-      <motion.div
-        className={`fixed w-2 h-2 ${isDark ? "bg-sky-400" : "bg-sky-600"} rounded-full pointer-events-none z-50`}
-        style={{
-          x: mousePosition.x - 4,
-          y: mousePosition.y - 4,
-        }}
-        transition={{ type: "spring", stiffness: 1000, damping: 40, mass: 0.1 }}
-      />
-
-      {/* Glitter particles */}
+      {/* Glitter particles only */}
       {glitterParticles.map((particle) => (
         <div
           key={particle.id}

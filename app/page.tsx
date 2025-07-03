@@ -18,6 +18,8 @@ import {
   X,
   Code,
   GraduationCap,
+  ChevronUp,
+  ChevronDown,
 } from "lucide-react"
 
 // Import components
@@ -35,9 +37,13 @@ export default function Portfolio() {
   const [isDark, setIsDark] = useState(false)
   const [isMobile, setIsMobile] = useState(false)
   const [isMenuOpen, setIsMenuOpen] = useState(false)
+  const [showAllProjects, setShowAllProjects] = useState(false)
   const { theme, setTheme } = useTheme()
   const { scrollY } = useScroll()
   const backgroundY = useTransform(scrollY, [0, 1000], [0, 300])
+
+  // Get projects to display (first 3 or all)
+  const displayedProjects = showAllProjects ? projects : projects.slice(0, 3)
 
   useEffect(() => {
     setIsDark(theme === "dark")
@@ -527,7 +533,7 @@ export default function Portfolio() {
           </motion.div>
 
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {projects.map((project, index) => (
+            {displayedProjects.map((project, index) => (
               <motion.div
                 key={index}
                 initial={{ opacity: 0, y: 30 }}
@@ -593,7 +599,18 @@ export default function Portfolio() {
                         </a>
                       </Button>
                     )}
-                    {project.demo !== "#" && (
+                    {project.colab && (
+                      <Button size="sm" variant="outline" asChild>
+                        <a href={project.colab} target="_blank" rel="noopener noreferrer">
+                          <svg className="w-4 h-4 mr-1" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M16.941 4.976a3.438 3.438 0 0 0-2.906 1.504c-.383.548-.594 1.194-.594 1.869 0 .675.211 1.321.594 1.869a3.438 3.438 0 0 0 2.906 1.504c.675 0 1.321-.211 1.869-.594.548-.383 1.194-.594 1.869-.594s1.321.211 1.869.594c.548.383 1.194.594 1.869.594a3.438 3.438 0 0 0 2.906-1.504c.383-.548.594-1.194.594-1.869 0-.675-.211-1.321-.594-1.869a3.438 3.438 0 0 0-2.906-1.504c-.675 0-1.321.211-1.869.594-.548.383-1.194-.594-1.869.594s-1.321-.211-1.869-.594c-.548-.383-1.194-.594-1.869-.594z"/>
+                            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"/>
+                          </svg>
+                          Colab
+                        </a>
+                      </Button>
+                    )}
+                    {project.demo !== "#" && project.demo !== "" && (
                       <Button size="sm" className="bg-sky-600 hover:bg-sky-700" asChild>
                         <a href={project.demo} target="_blank" rel="noopener noreferrer">
                           <Rocket className="w-4 h-4 mr-1" />
@@ -606,12 +623,48 @@ export default function Portfolio() {
               </motion.div>
             ))}
           </div>
+
+          {/* View More Button */}
+          {projects.length > 3 && (
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.3 }}
+              className="text-center mt-12"
+            >
+              <Button
+                onClick={() => setShowAllProjects(!showAllProjects)}
+                size="lg"
+                variant="outline"
+                className={`border-2 transition-all duration-300 ${
+                  isDark 
+                    ? "border-sky-400 text-sky-400 hover:bg-sky-400 hover:text-gray-900" 
+                    : "border-sky-600 text-sky-600 hover:bg-sky-600 hover:text-white"
+                }`}
+              >
+                {showAllProjects ? (
+                  <>
+                    <ChevronUp className="w-5 h-5 mr-2" />
+                    Show Less
+                  </>
+                ) : (
+                  <>
+                    <ChevronDown className="w-5 h-5 mr-2" />
+                    View More Projects
+                  </>
+                )}
+              </Button>
+            </motion.div>
+          )}
         </div>
       </section>
 
       {/* Contact Section */}
-      <section id="contact" className="py-20">
-        <div className="container mx-auto px-6">
+      <section id="contact" className="py-20 relative overflow-hidden">
+        {/* Background decoration */}
+        <div className={`absolute inset-0 ${isDark ? "bg-gradient-to-br from-gray-800/20 to-gray-700/20" : "bg-gradient-to-br from-sky-100/30 to-blue-100/30"}`} />
+        
+        <div className="container mx-auto px-6 relative z-10">
           <motion.div
             initial={{ opacity: 0, y: 50 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -620,8 +673,11 @@ export default function Portfolio() {
           >
             <h2 className={`text-4xl font-bold ${isDark ? "text-gray-100" : "text-gray-800"} mb-4`}>
               <Mail className="inline w-8 h-8 mr-3 text-sky-600" />
-              Get In Touch
+              Let's Connect
             </h2>
+            <p className={`text-lg ${isDark ? "text-gray-300" : "text-gray-600"} mb-4`}>
+              Have a question or just want to say hi? I'd love to hear from you!
+            </p>
             <div className="w-24 h-1 bg-gradient-to-r from-sky-500 to-blue-600 mx-auto"></div>
           </motion.div>
 
@@ -629,44 +685,151 @@ export default function Portfolio() {
             initial={{ opacity: 0, y: 50 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.2 }}
-            className="max-w-4xl mx-auto"
+            className="max-w-6xl mx-auto"
           >
-            <div className="grid md:grid-cols-2 gap-12">
-              <div className="space-y-8">
-                <h3 className={`text-2xl font-semibold ${isDark ? "text-gray-100" : "text-gray-800"}`}>Get In Touch</h3>
-                <div className="space-y-6">
+            <div className="grid lg:grid-cols-3 gap-8">
+              {/* Contact Info Cards */}
+              <div className="lg:col-span-1 space-y-6">
+                <h3 className={`text-2xl font-semibold ${isDark ? "text-gray-100" : "text-gray-800"} mb-6`}>
+                  Get In Touch
+                </h3>
+                
+                <div className="space-y-4">
                   {[
-                    { icon: Mail, label: "Email", value: "your.email@example.com" },
-                    { icon: Linkedin, label: "LinkedIn", value: "/in/yourprofile" },
-                    { icon: Github, label: "GitHub", value: "@yourusername" },
+                    { 
+                      icon: Mail, 
+                      label: "Email", 
+                      value: "emen.dengg@gmail.com",
+                      href: "mailto:emen.dengg@gmail.com",
+                      description: "Send me a message"
+                    },
+                    { 
+                      icon: Linkedin, 
+                      label: "LinkedIn", 
+                      value: "/in/emendeng",
+                      href: "https://linkedin.com/in/emen-deng",
+                      description: "Connect professionally"
+                    },
+                    { 
+                      icon: Github, 
+                      label: "GitHub", 
+                      value: "@e-deng",
+                      href: "https://github.com/e-deng",
+                      description: "Check out my code"
+                    },
                   ].map((contact, index) => (
-                    <motion.div
+                    <motion.a
                       key={index}
-                      whileHover={{ x: 10 }}
-                      className="flex items-center space-x-4 p-4 bg-white/80 backdrop-blur-sm rounded-lg border border-sky-200"
+                      href={contact.href}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      whileHover={{ scale: 1.02, y: -2 }}
+                      className={`block p-4 rounded-lg border transition-all duration-300 ${
+                        isDark 
+                          ? "bg-gray-800/50 border-gray-700 hover:border-sky-500 hover:bg-gray-800/70" 
+                          : "bg-white/50 border-gray-200 hover:border-sky-400 hover:bg-white/70"
+                      }`}
                     >
-                      <contact.icon className="w-6 h-6 text-sky-600" />
-                      <div>
-                        <div className="font-medium text-gray-800">{contact.label}</div>
-                        <div className="text-gray-600">{contact.value}</div>
+                      <div className="flex items-center space-x-3">
+                        <div className={`p-2 rounded-lg ${isDark ? "bg-gray-700" : "bg-sky-100"}`}>
+                          <contact.icon className={`w-5 h-5 ${isDark ? "text-sky-400" : "text-sky-600"}`} />
+                        </div>
+                        <div className="flex-1">
+                          <p className={`font-medium ${isDark ? "text-gray-100" : "text-gray-800"}`}>
+                            {contact.label}
+                          </p>
+                          <p className={`text-sm ${isDark ? "text-gray-400" : "text-gray-600"}`}>
+                            {contact.description}
+                          </p>
+                        </div>
                       </div>
-                    </motion.div>
+                    </motion.a>
                   ))}
                 </div>
               </div>
 
-              <div className="space-y-8">
-                <h3 className={`text-2xl font-semibold ${isDark ? "text-gray-100" : "text-gray-800"}`}>
-                  Let's Work Together
-                </h3>
-                <p className={`text-lg ${isDark ? "text-gray-300" : "text-gray-700"} leading-relaxed`}>
-                  I'm always interested in new opportunities and exciting projects. Whether you have a question or just
-                  want to say hi, feel free to reach out!
-                </p>
-                <Button size="lg" className="bg-gradient-to-r from-sky-500 to-blue-600 hover:from-sky-600 hover:to-blue-700">
-                  <Mail className="w-5 h-5 mr-2" />
-                  Send Message
-                </Button>
+              {/* Contact Form */}
+              <div className="lg:col-span-2">
+                <div className={`p-8 rounded-xl border shadow-lg ${
+                  isDark 
+                    ? "bg-gray-800/50 border-gray-700" 
+                    : "bg-white/50 border-gray-200"
+                }`}>
+                  <h3 className={`text-2xl font-semibold ${isDark ? "text-gray-100" : "text-gray-800"} mb-6`}>
+                    Send a Message
+                  </h3>
+                  
+                  <form className="space-y-6">
+                    <div className="grid md:grid-cols-2 gap-6">
+                      <div>
+                        <label className={`block text-sm font-medium mb-2 ${isDark ? "text-gray-300" : "text-gray-700"}`}>
+                          Name
+                        </label>
+                        <input
+                          type="text"
+                          className={`w-full px-4 py-3 rounded-lg border transition-colors ${
+                            isDark 
+                              ? "bg-gray-700 border-gray-600 text-gray-100 placeholder-gray-400 focus:border-sky-500" 
+                              : "bg-white border-gray-300 text-gray-800 placeholder-gray-500 focus:border-sky-400"
+                          }`}
+                          placeholder="Your name"
+                        />
+                      </div>
+                      <div>
+                        <label className={`block text-sm font-medium mb-2 ${isDark ? "text-gray-300" : "text-gray-700"}`}>
+                          Email
+                        </label>
+                        <input
+                          type="email"
+                          className={`w-full px-4 py-3 rounded-lg border transition-colors ${
+                            isDark 
+                              ? "bg-gray-700 border-gray-600 text-gray-100 placeholder-gray-400 focus:border-sky-500" 
+                              : "bg-white border-gray-300 text-gray-800 placeholder-gray-500 focus:border-sky-400"
+                          }`}
+                          placeholder="your.email@example.com"
+                        />
+                      </div>
+                    </div>
+                    
+                    <div>
+                      <label className={`block text-sm font-medium mb-2 ${isDark ? "text-gray-300" : "text-gray-700"}`}>
+                        Subject
+                      </label>
+                      <input
+                        type="text"
+                        className={`w-full px-4 py-3 rounded-lg border transition-colors ${
+                          isDark 
+                            ? "bg-gray-700 border-gray-600 text-gray-100 placeholder-gray-400 focus:border-sky-500" 
+                            : "bg-white border-gray-300 text-gray-800 placeholder-gray-500 focus:border-sky-400"
+                        }`}
+                        placeholder="What's this about?"
+                      />
+                    </div>
+                    
+                    <div>
+                      <label className={`block text-sm font-medium mb-2 ${isDark ? "text-gray-300" : "text-gray-700"}`}>
+                        Message
+                      </label>
+                      <textarea
+                        rows={5}
+                        className={`w-full px-4 py-3 rounded-lg border transition-colors resize-none ${
+                          isDark 
+                            ? "bg-gray-700 border-gray-600 text-gray-100 placeholder-gray-400 focus:border-sky-500" 
+                            : "bg-white border-gray-300 text-gray-800 placeholder-gray-500 focus:border-sky-400"
+                        }`}
+                        placeholder="Share your thoughts, questions, or just drop a friendly message to let me know you were here!"
+                      />
+                    </div>
+                    
+                    <Button 
+                      type="submit" 
+                      className="w-full bg-gradient-to-r from-sky-600 to-blue-600 hover:from-sky-700 hover:to-blue-700 text-white py-3"
+                    >
+                      <Mail className="w-5 h-5 mr-2" />
+                      Send Message
+                    </Button>
+                  </form>
+                </div>
               </div>
             </div>
           </motion.div>
@@ -697,7 +860,7 @@ export default function Portfolio() {
               ))}
             </div>
             <div className="mt-8 pt-8 border-t border-gray-800 text-gray-500">
-              © 2024 Emen. Made with ❤️ and lots of ☕
+              © 2025 Emen. Made with ❤️ and lots of ☕
             </div>
           </div>
         </div>
