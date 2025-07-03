@@ -20,6 +20,7 @@ import {
   GraduationCap,
   ChevronUp,
   ChevronDown,
+  Download,
 } from "lucide-react"
 
 // Import components
@@ -109,6 +110,16 @@ export default function Portfolio() {
                     {item}
                   </button>
                 ))}
+                <Button 
+                  asChild
+                  size="sm" 
+                  className="bg-gradient-to-r from-sky-500 to-blue-600 hover:from-sky-600 hover:to-blue-700 text-white"
+                >
+                  <a href="/Resume.pdf" target="_blank" rel="noopener noreferrer">
+                    <Download className="w-4 h-4 mr-1" />
+                    Resume
+                  </a>
+                </Button>
                 <Button onClick={toggleTheme} variant="outline" size="sm">
                   {isDark ? "☀️" : "🌙"}
                 </Button>
@@ -149,6 +160,17 @@ export default function Portfolio() {
                     {item}
                   </button>
                 ))}
+                <Button 
+                  asChild
+                  variant="outline" 
+                  size="sm" 
+                  className="w-fit bg-gradient-to-r from-sky-500 to-blue-600 hover:from-sky-600 hover:to-blue-700 text-white border-sky-500"
+                >
+                  <a href="/Resume.pdf" target="_blank" rel="noopener noreferrer">
+                    <Download className="w-4 h-4 mr-1" />
+                    Resume
+                  </a>
+                </Button>
                 <Button onClick={toggleTheme} variant="outline" size="sm" className="w-fit">
                   {isDark ? "☀️ Light Mode" : "🌙 Dark Mode"}
                 </Button>
