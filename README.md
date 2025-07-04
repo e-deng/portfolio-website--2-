@@ -6,7 +6,7 @@ Hi there! 👋 I'm a passionate developer who loves creating beautiful and funct
 
 This portfolio isn't just another developer website - it's a carefully crafted experience that reflects my personality and skills:
 
-- 🌸 **Cute Cinnamoroll-themed design** - Because who says tech can't be adorable?
+- 🌸 **Cute design** - Because who says tech can't be adorable?
 - 🌙 **Night/space theme for dark mode** - Perfect for late-night coding sessions
 - ✨ **Glitter cursor trail** - Adds a magical touch to every interaction
 - 🎨 **Smooth animations with Framer Motion** - Because life is better with motion
