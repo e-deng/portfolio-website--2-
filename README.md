@@ -50,8 +50,8 @@ To run this project locally:
    npm install
    ```
 
-2. Set up environment variables:
-   Create a `.env.local` file in the root directory and add your Spotify API credentials:
+2. Set up environment variables (only if you found the secret):
+   Create a `.env.local` file in the root directory and add your Spotify API credentials: (spotify?? I don't see that anywhere...)
    ```env
    SPOTIFY_CLIENT_ID=your_spotify_client_id
    SPOTIFY_CLIENT_SECRET=your_spotify_client_secret
