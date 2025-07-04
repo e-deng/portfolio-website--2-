@@ -105,11 +105,13 @@ export async function GET() {
     return NextResponse.json({
       currentTrack,
       recentTracks,
+      timestamp: new Date().toISOString(), // Add timestamp to force refresh
     }, {
       headers: {
-        'Cache-Control': 'no-cache, no-store, must-revalidate',
+        'Cache-Control': 'no-cache, no-store, must-revalidate, max-age=0',
         'Pragma': 'no-cache',
         'Expires': '0',
+        'Surrogate-Control': 'no-store',
       },
     })
   } catch (error) {

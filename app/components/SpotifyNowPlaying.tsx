@@ -36,10 +36,11 @@ export default function SpotifyNowPlaying({ isDark = false, spotifyProfileUrl }:
     }
     
     try {
-      const response = await fetch('/api/spotify', {
+      const response = await fetch(`/api/spotify?t=${Date.now()}`, {
         cache: 'no-store',
         headers: {
           'Cache-Control': 'no-cache',
+          'Pragma': 'no-cache',
         },
       })
       const data = await response.json()
@@ -62,8 +63,8 @@ export default function SpotifyNowPlaying({ isDark = false, spotifyProfileUrl }:
   useEffect(() => {
     fetchCurrentTrack()
     
-    // Refresh every 15 seconds
-    const interval = setInterval(fetchCurrentTrack, 15000)
+    // Refresh every 10 seconds
+    const interval = setInterval(fetchCurrentTrack, 10000)
     
     return () => clearInterval(interval)
   }, [])
