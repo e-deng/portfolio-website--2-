@@ -41,7 +41,7 @@ This portfolio was built using modern web technologies and best practices:
 
 ## 🚀 Getting Started
 
-This portfolio is deployed on GitHub Pages and can be accessed at: [https://yourusername.github.io/your-repo-name](https://yourusername.github.io/your-repo-name)
+This portfolio is deployed on Vercel and can be accessed at: [https://portfolio-three-mu-40.vercel.app/](https://portfolio-three-mu-40.vercel.app/)
 
 To run this project locally:
 
