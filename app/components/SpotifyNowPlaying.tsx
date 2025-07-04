@@ -183,12 +183,12 @@ export default function SpotifyNowPlaying({ isDark = false, spotifyProfileUrl }:
         </div>
       )}
 
-      {/* Recently Played */}
+      {/* Top Tracks */}
       <div>
         <h4 className={`font-semibold mb-3 ${isDark ? "text-gray-100" : "text-gray-800"}`}>
-          Recently Played
+          Top Tracks
         </h4>
-        {recentTracks.length > 0 ? (
+        {recentTracks && recentTracks.length > 0 ? (
           <div className="space-y-2 max-h-64 overflow-y-auto">
             {recentTracks.map((track, index) => (
               <div key={index} className="flex items-center space-x-3 p-3 bg-gray-50 dark:bg-gray-700 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-600 transition-colors">
@@ -251,11 +251,12 @@ export default function SpotifyNowPlaying({ isDark = false, spotifyProfileUrl }:
           <div className={`p-4 text-center ${isDark ? "bg-gray-700" : "bg-gray-50"} rounded-lg`}>
             <Music className={`w-8 h-8 mx-auto mb-2 ${isDark ? "text-gray-400" : "text-gray-500"}`} />
             <p className={`text-sm ${isDark ? "text-gray-400" : "text-gray-600"}`}>
-              No recently played tracks found
+              No top tracks found
             </p>
             <p className={`text-xs ${isDark ? "text-gray-500" : "text-gray-500"}`}>
-              Start listening to some music on Spotify!
+              Listen to more music on Spotify to see your top tracks!
             </p>
+
           </div>
         )}
       </div>

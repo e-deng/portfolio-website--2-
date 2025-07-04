@@ -54,24 +54,53 @@ export async function GET() {
       }
     }
 
-    // Fetch recently played tracks
-    const recentResponse = await fetch("https://api.spotify.com/v1/me/player/recently-played?limit=10", {
+    // Fetch top tracks (last 4 weeks)
+    const topTracksResponse = await fetch("https://api.spotify.com/v1/me/top/tracks?limit=5&time_range=short_term", {
       headers: {
         Authorization: `Bearer ${accessToken}`,
       },
     })
 
     let recentTracks = []
-    if (recentResponse.status <= 400) {
-      const recentData = await recentResponse.json()
-      recentTracks = recentData.items.map((item: any) => ({
-        title: item.track.name,
-        artist: item.track.artists.map((_artist: any) => _artist.name).join(", "),
-        albumImageUrl: item.track.album.images[0]?.url,
-        songUrl: item.track.external_urls.spotify,
-        playedAt: item.played_at,
-      }))
+    if (topTracksResponse.status <= 400) {
+      const topTracksData = await topTracksResponse.json()
+      if (topTracksData.items && topTracksData.items.length > 0) {
+        recentTracks = topTracksData.items.map((item: any) => ({
+          title: item.name,
+          artist: item.artists.map((_artist: any) => _artist.name).join(", "),
+          albumImageUrl: item.album.images[0]?.url,
+          songUrl: item.external_urls.spotify,
+          playedAt: null, // Top tracks don't have played_at
+        }))
+      }
+    } else {
+      // If short term fails, try medium term (last 6 months)
+      try {
+        const mediumTermResponse = await fetch("https://api.spotify.com/v1/me/top/tracks?limit=5&time_range=medium_term", {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        })
+        
+        if (mediumTermResponse.status <= 400) {
+          const mediumTermData = await mediumTermResponse.json()
+          if (mediumTermData.items && mediumTermData.items.length > 0) {
+            recentTracks = mediumTermData.items.map((item: any) => ({
+              title: item.name,
+              artist: item.artists.map((_artist: any) => _artist.name).join(", "),
+              albumImageUrl: item.album.images[0]?.url,
+              songUrl: item.external_urls.spotify,
+              playedAt: null,
+            }))
+          }
+        }
+      } catch (fallbackError) {
+        // Silently handle fallback errors
+      }
     }
+    
+    // If we still have no tracks, return empty array (no sample data)
+    // This will show the "No tracks found" message until proper scopes are added
 
     return NextResponse.json({
       currentTrack,
