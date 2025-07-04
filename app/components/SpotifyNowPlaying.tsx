@@ -39,7 +39,7 @@ export default function SpotifyNowPlaying({ isDark = false, spotifyProfileUrl }:
       const response = await fetch(`/api/spotify?t=${Date.now()}`, {
         cache: 'no-store',
         headers: {
-          'Cache-Control': 'no-cache',
+          'Cache-Control': 'no-cache, no-store, must-revalidate',
           'Pragma': 'no-cache',
         },
       })

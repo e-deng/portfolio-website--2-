@@ -1,8 +1,7 @@
-import { NextRequest, NextResponse } from 'next/server'
+import type { NextApiRequest, NextApiResponse } from 'next'
 
 const CLIENT_ID = process.env.SPOTIFY_CLIENT_ID
 const CLIENT_SECRET = process.env.SPOTIFY_CLIENT_SECRET
-const REDIRECT_URI = process.env.SPOTIFY_REDIRECT_URI || 'http://localhost:3000/api/spotify/callback'
 const REFRESH_TOKEN = process.env.SPOTIFY_REFRESH_TOKEN
 
 // Get access token using refresh token
@@ -27,9 +26,12 @@ async function getAccessToken() {
   return data.access_token
 }
 
+export default async function handler(req: NextApiRequest, res: NextApiResponse) {
+  // Set cache headers to prevent caching
+  res.setHeader('Cache-Control', 'no-cache, no-store, must-revalidate, max-age=0')
+  res.setHeader('Pragma', 'no-cache')
+  res.setHeader('Expires', '0')
 
-
-export async function GET() {
   try {
     const accessToken = await getAccessToken()
     
@@ -98,27 +100,17 @@ export async function GET() {
         // Silently handle fallback errors
       }
     }
-    
-    // If we still have no tracks, return empty array (no sample data)
-    // This will show the "No tracks found" message until proper scopes are added
 
-    return NextResponse.json({
+    res.status(200).json({
       currentTrack,
       recentTracks,
-      timestamp: new Date().toISOString(), // Add timestamp to force refresh
-    }, {
-      headers: {
-        'Cache-Control': 'no-cache, no-store, must-revalidate, max-age=0',
-        'Pragma': 'no-cache',
-        'Expires': '0',
-        'Surrogate-Control': 'no-store',
-      },
+      timestamp: new Date().toISOString(),
     })
   } catch (error) {
     console.error('Spotify API error:', error)
-    return NextResponse.json(
-      { error: 'Failed to fetch Spotify data' },
-      { status: 500 }
-    )
+    res.status(500).json({ 
+      error: 'Failed to fetch Spotify data',
+      timestamp: new Date().toISOString()
+    })
   }
 } 

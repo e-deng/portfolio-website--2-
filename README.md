@@ -1,101 +1,78 @@
 # Portfolio Website
 
-A beautiful, responsive portfolio website built with Next.js, featuring:
+Hi there! 👋 I'm a passionate developer who loves creating beautiful and functional web experiences. This portfolio showcases my journey in web development, featuring projects that blend creativity with technical expertise.
 
-- 🌸 Cute Cinnamoroll-themed design
-- 🌙 Night/space theme for dark mode
-- ✨ Glitter cursor trail
-- 🎨 Smooth animations with Framer Motion
-- 📱 Fully responsive design
-- 🎯 Modern tech stack showcase
+## ✨ What Makes This Website Special
 
-## Getting Started
+This portfolio isn't just another developer website - it's a carefully crafted experience that reflects my personality and skills:
+
+- 🌸 **Cute Cinnamoroll-themed design** - Because who says tech can't be adorable?
+- 🌙 **Night/space theme for dark mode** - Perfect for late-night coding sessions
+- ✨ **Glitter cursor trail** - Adds a magical touch to every interaction
+- 🎨 **Smooth animations with Framer Motion** - Because life is better with motion
+- 📱 **Fully responsive design** - Looks great on any device
+- 🎯 **Modern tech stack showcase** - Built with the latest technologies
+
+## 🎭 Hidden Surprise
+
+There's a little something special hidden within this website... Can you find it? 🕵️‍♀️
+
+## 🛠️ How This Website Was Made
+
+This portfolio was built using modern web technologies and best practices:
+
+### **Tech Stack:**
+- **Next.js 14** - For the framework and routing
+- **React 18** - For the interactive components
+- **TypeScript** - For type safety and better development experience
+- **Tailwind CSS** - For styling and responsive design
+- **Framer Motion** - For smooth animations and transitions
+- **Radix UI** - For accessible UI components
+- **Lucide React Icons** - For beautiful, consistent icons
+
+### **Key Features:**
+- Animated typewriter text that brings content to life
+- Expandable experience cards for detailed project information
+- Interactive project showcase with smooth transitions
+- Smooth scrolling navigation for seamless browsing
+- Dark/light mode toggle for user preference
+- Custom glitter cursor that follows your mouse
+- Floating background elements for visual depth
+
+## 🚀 Getting Started
+
+This portfolio is deployed on GitHub Pages and can be accessed at: [https://yourusername.github.io/your-repo-name](https://yourusername.github.io/your-repo-name)
+
+To run this project locally:
 
 1. Install dependencies:
-\`\`\`bash
-npm install
-\`\`\`
-
-2. Run the development server:
-\`\`\`bash
-npm run dev
-\`\`\`
-
-3. Build for production:
-\`\`\`bash
-npm run build
-\`\`\`
-
-4. Export static files:
-\`\`\`bash
-npm run export
-\`\`\`
-
-## Tech Stack
-
-- Next.js 14
-- React 18
-- TypeScript
-- Tailwind CSS
-- Framer Motion
-- Radix UI
-- Lucide React Icons
-
-## Features
-
-- Animated typewriter text
-- Expandable experience cards
-- Interactive project showcase
-- Smooth scrolling navigation
-- Dark/light mode toggle
-- Custom glitter cursor
-- Floating background elements
-
-## Customization
-
-Update the content in `app/page.tsx` to personalize:
-- Your name and information
-- Projects and experience
-- Skills and technologies
-- Contact information
-\`\`\`
-
-Perfect! Your portfolio is now properly structured for Next.js export. Here's what's set up:
-
-## 🚀 **Export-Ready Features:**
-
-### **Next.js Configuration:**
-- `next.config.js` with `output: 'export'` for static export
-- `images: { unoptimized: true }` for static hosting
-- `trailingSlash: true` for better compatibility
-
-### **Package Scripts:**
-- `npm run dev` - Development server
-- `npm run build` - Production build
-- `npm run export` - Static export
-- `npm run start` - Production server
-
-### **Proper File Structure:**
-- ✅ `app/layout.tsx` - App Router layout
-- ✅ `app/page.tsx` - Main page component
-- ✅ `app/globals.css` - Global styles
-- ✅ `tailwind.config.js` - Tailwind configuration
-- ✅ `tsconfig.json` - TypeScript config
-- ✅ `package.json` - Dependencies and scripts
-
-## 📦 **To Export Your Portfolio:**
-
-1. **Install dependencies:**
-   \`\`\`bash
+   ```bash
    npm install
-   \`\`\`
+   ```
 
-2. **Build and export:**
-   \`\`\`bash
-   npm run build
-   npm run export
-   \`\`\`
+2. Set up environment variables:
+   Create a `.env.local` file in the root directory and add your Spotify API credentials:
+   ```env
+   SPOTIFY_CLIENT_ID=your_spotify_client_id
+   SPOTIFY_CLIENT_SECRET=your_spotify_client_secret
+   SPOTIFY_REFRESH_TOKEN=your_spotify_refresh_token
+   ```
 
-3. **Deploy the `out` folder** to any static hosting service (Vercel, Netlify, GitHub Pages, etc.)
+3. Start the development server:
+   ```bash
+   npm run dev
+   ```
 
-Your portfolio is now ready for export and deployment! The static files will be generated in the `out` directory and can be hosted anywhere. 🎉✨
+4. Open your browser and navigate to `http://localhost:3000`
+
+## 🎵 Spotify Integration Setup
+
+To enable the Spotify "Now Playing" feature:
+
+1. Create a Spotify app at [Spotify Developer Dashboard](https://developer.spotify.com/dashboard)
+2. Add `http://localhost:3000/api/auth/callback/spotify` to your app's redirect URIs
+3. Get your Client ID and Client Secret from the dashboard
+4. Generate a refresh token using the Spotify OAuth flow
+5. Add all credentials to your `.env.local` file
+
+The Spotify integration will show your currently playing track and top tracks from the last 4 weeks!
