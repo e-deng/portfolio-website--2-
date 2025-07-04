@@ -34,13 +34,14 @@ import { GlitterCursor } from "./components/GlitterCursor"
 // Import data
 import { projects } from "./data/projects"
 import { experiences } from "./data/experiences"
+import SpotifyNowPlaying from "./components/SpotifyNowPlaying"
 
 export default function Portfolio() {
   const [isDark, setIsDark] = useState(false)
   const [isMobile, setIsMobile] = useState(false)
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   const [showAllProjects, setShowAllProjects] = useState(false)
-  const [showSpotify, setShowSpotify] = useState(false)
+  const [showSpotifySection, setShowSpotifySection] = useState(false)
   const { theme, setTheme } = useTheme()
   const { scrollY } = useScroll()
   const backgroundY = useTransform(scrollY, [0, 1000], [0, 300])
@@ -61,18 +62,7 @@ export default function Portfolio() {
     return () => window.removeEventListener("resize", checkMobile)
   }, [])
 
-  // Hidden Spotify feature - press 'S' key to toggle
-  useEffect(() => {
-    const handleKeyPress = (e: KeyboardEvent) => {
-      if (e.key.toLowerCase() === 's' && e.ctrlKey) {
-        e.preventDefault()
-        setShowSpotify(!showSpotify)
-      }
-    }
 
-    window.addEventListener('keydown', handleKeyPress)
-    return () => window.removeEventListener('keydown', handleKeyPress)
-  }, [showSpotify])
 
   const toggleTheme = () => {
     setTheme(isDark ? "light" : "dark")
@@ -871,6 +861,64 @@ export default function Portfolio() {
                 </div>
               </div>
             </div>
+
+            {/* Spotify Section */}
+            {showSpotifySection && (
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -20 }}
+                transition={{ duration: 0.5 }}
+                className="mt-16"
+              >
+                <div className={`p-8 rounded-xl border shadow-lg ${
+                  isDark 
+                    ? "bg-gray-800/50 border-gray-700" 
+                    : "bg-white/50 border-gray-200"
+                }`}>
+                  <div className="flex items-center justify-between mb-6">
+                    <div className="flex items-center space-x-3">
+                      <div className="w-10 h-10 bg-green-500 rounded-full flex items-center justify-center">
+                        <Music className="w-6 h-6 text-white" />
+                      </div>
+                      <div>
+                        <h3 className={`text-2xl font-semibold ${isDark ? "text-gray-100" : "text-gray-800"}`}>
+                          What I'm Listening To
+                        </h3>
+                        <p className={`text-sm ${isDark ? "text-gray-300" : "text-gray-600"}`}>
+                          My Spotify vibes 🎵
+                        </p>
+                      </div>
+                    </div>
+                    <div className="flex items-center space-x-3">
+                      <Button
+                        asChild
+                        className="bg-green-500 hover:bg-green-600 text-white"
+                      >
+                        <a 
+                          href="https://open.spotify.com/user/3m3nd3ng" 
+                          target="_blank" 
+                          rel="noopener noreferrer"
+                        >
+                          <Music className="w-4 h-4 mr-2" />
+                          View Profile
+                        </a>
+                      </Button>
+                      <Button
+                        onClick={() => setShowSpotifySection(false)}
+                        variant="outline"
+                        size="sm"
+                        className={`${isDark ? "border-gray-600 text-gray-300 hover:bg-gray-700" : "border-gray-300 text-gray-600 hover:bg-gray-50"}`}
+                      >
+                        <X className="w-4 h-4" />
+                      </Button>
+                    </div>
+                  </div>
+                  
+                  <SpotifyNowPlaying isDark={isDark} spotifyProfileUrl="https://open.spotify.com/user/3m3nd3ng" />
+                </div>
+              </motion.div>
+            )}
           </motion.div>
         </div>
       </section>
@@ -887,122 +935,59 @@ export default function Portfolio() {
             </motion.div>
             <p className="text-gray-400 mb-6">Building the future, one line of code at a time.</p>
             <div className="flex justify-center space-x-6">
-              {[Github, Linkedin, Mail].map((Icon, index) => (
-                <motion.a
-                  key={index}
-                  href="#"
-                  whileHover={{ scale: 1.2, y: -5 }}
-                  className="text-gray-400 hover:text-sky-400 transition-colors"
-                >
-                  <Icon className="w-6 h-6" />
-                </motion.a>
-              ))}
-              <motion.button
-                onClick={() => setShowSpotify(!showSpotify)}
+              <motion.a
+                href="https://github.com/e-deng"
+                target="_blank"
+                rel="noopener noreferrer"
+                whileHover={{ scale: 1.2, y: -5 }}
+                className="text-gray-400 hover:text-sky-400 transition-colors"
+              >
+                <Github className="w-6 h-6" />
+              </motion.a>
+              <motion.a
+                href="https://linkedin.com/in/emen-deng"
+                target="_blank"
+                rel="noopener noreferrer"
+                whileHover={{ scale: 1.2, y: -5 }}
+                className="text-gray-400 hover:text-sky-400 transition-colors"
+              >
+                <Linkedin className="w-6 h-6" />
+              </motion.a>
+              <motion.a
+                href="mailto:emen.dengg@gmail.com"
+                whileHover={{ scale: 1.2, y: -5 }}
+                className="text-gray-400 hover:text-sky-400 transition-colors"
+              >
+                <Mail className="w-6 h-6" />
+              </motion.a>
+              <motion.a
+                href="https://open.spotify.com/user/3m3nd3ng"
+                target="_blank"
+                rel="noopener noreferrer"
                 whileHover={{ scale: 1.2, y: -5 }}
                 className="text-gray-400 hover:text-green-400 transition-colors"
-                title="Check out my music taste! (or press Ctrl+S)"
+                title="Check out my music taste!"
               >
                 <svg className="w-6 h-6" viewBox="0 0 24 24" fill="currentColor">
                   <path d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.66 0 12 0zm5.521 17.34c-.24.359-.66.48-1.021.24-2.82-1.74-6.36-2.101-10.561-1.141-.418.122-.779-.179-.899-.539-.12-.421.18-.78.54-.9 4.56-1.021 8.52-.6 11.64 1.32.42.18.479.659.301 1.02zm1.44-3.3c-.301.42-.841.6-1.262.3-3.239-1.98-8.159-2.58-11.939-1.38-.479.12-1.02-.12-1.14-.6-.12-.48.12-1.021.6-1.141C9.6 9.9 15 10.561 18.72 12.84c.361.181.54.78.241 1.2zm.12-3.36C15.24 8.4 8.82 8.16 5.16 9.301c-.6.179-1.2-.181-1.38-.721-.18-.601.18-1.2.72-1.381 4.26-1.26 11.28-1.02 15.721 1.621.539.3.719 1.02.419 1.56-.299.421-1.02.599-1.559.3z"/>
                 </svg>
-              </motion.button>
+              </motion.a>
             </div>
             <div className="mt-8 pt-8 border-t border-gray-800 text-gray-500">
               © 2024 Emen. Made with ❤️ and lots of ☕
               <br />
-              <span className="text-xs opacity-50">💡 Hint: Try Ctrl+S for a surprise!</span>
+              <button
+                onClick={() => setShowSpotifySection(!showSpotifySection)}
+                className="text-xs opacity-50 hover:opacity-100 transition-opacity cursor-pointer decoration-dotted"
+              >
+                💡 Click for a surprise!
+              </button>
             </div>
           </div>
         </div>
       </footer>
 
-      {/* Hidden Spotify Modal */}
-      {showSpotify && (
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          exit={{ opacity: 0 }}
-          className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4"
-          onClick={() => setShowSpotify(false)}
-        >
-          <motion.div
-            initial={{ scale: 0.8, opacity: 0 }}
-            animate={{ scale: 1, opacity: 1 }}
-            exit={{ scale: 0.8, opacity: 0 }}
-            className={`relative max-w-md w-full ${isDark ? "bg-gray-800" : "bg-white"} rounded-xl shadow-2xl overflow-hidden`}
-            onClick={(e) => e.stopPropagation()}
-          >
-            {/* Header */}
-            <div className={`p-6 ${isDark ? "bg-gray-700" : "bg-sky-50"} border-b ${isDark ? "border-gray-600" : "border-sky-200"}`}>
-              <div className="flex items-center justify-between">
-                <div className="flex items-center space-x-3">
-                  <div className="w-10 h-10 bg-green-500 rounded-full flex items-center justify-center">
-                    <Music className="w-6 h-6 text-white" />
-                  </div>
-                  <div>
-                    <h3 className={`font-bold ${isDark ? "text-white" : "text-gray-800"}`}>What I'm Listening To</h3>
-                    <p className={`text-sm ${isDark ? "text-gray-300" : "text-gray-600"}`}>My Spotify vibes 🎵</p>
-                  </div>
-                </div>
-                <button
-                  onClick={() => setShowSpotify(false)}
-                  className={`p-2 rounded-lg hover:bg-opacity-20 ${isDark ? "hover:bg-white" : "hover:bg-gray-800"}`}
-                >
-                  <X className="w-5 h-5" />
-                </button>
-              </div>
-            </div>
 
-            {/* Content */}
-            <div className="p-6">
-              <div className="space-y-4">
-                <div className="text-center">
-                  <p className={`text-sm ${isDark ? "text-gray-300" : "text-gray-600"} mb-4`}>
-                    Check out my current music taste and what's been on repeat lately!
-                  </p>
-                  <Button
-                    asChild
-                    className="w-full bg-green-500 hover:bg-green-600 text-white"
-                  >
-                    <a 
-                      href="https://open.spotify.com/user/3m3nd3ng" 
-                      target="_blank" 
-                      rel="noopener noreferrer"
-                    >
-                      <Music className="w-4 h-4 mr-2" />
-                      View My Spotify Profile
-                    </a>
-                  </Button>
-                </div>
-                
-                <div className={`p-4 rounded-lg ${isDark ? "bg-gray-700" : "bg-sky-50"}`}>
-                  <h4 className={`font-semibold mb-2 ${isDark ? "text-white" : "text-gray-800"}`}>Recent Favorites</h4>
-                  <ul className={`text-sm space-y-1 ${isDark ? "text-gray-300" : "text-gray-600"}`}>
-                    <li>🎵 Lofi beats for coding sessions</li>
-                    <li>🎵 Indie rock and alternative</li>
-                    <li>🎵 Electronic and ambient music</li>
-                    <li>🎵 Soundtracks from games and movies</li>
-                  </ul>
-                </div>
-
-                <div className={`p-4 rounded-lg ${isDark ? "bg-gray-700" : "bg-sky-50"}`}>
-                  <h4 className={`font-semibold mb-2 ${isDark ? "text-white" : "text-gray-800"}`}>Currently Playing</h4>
-                  <div className="flex items-center space-x-3">
-                    <div className="w-12 h-12 bg-gradient-to-br from-green-400 to-green-600 rounded-lg flex items-center justify-center">
-                      <Music className="w-6 h-6 text-white" />
-                    </div>
-                    <div className="flex-1">
-                      <p className={`font-medium ${isDark ? "text-white" : "text-gray-800"}`}>Loading your current track...</p>
-                      <p className={`text-xs ${isDark ? "text-gray-400" : "text-gray-500"}`}>Check my profile for live updates!</p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </motion.div>
-        </motion.div>
-      )}
     </div>
   )
 } 
