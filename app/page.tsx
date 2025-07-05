@@ -36,6 +36,7 @@ import { Hero } from "./components/Hero"
 import { Footer } from "./components/Footer"
 import { Navigation } from "./components/Navigation"
 import { Skills } from "./components/Skills"
+import { SectionIndicator } from "./components/SectionIndicator"
 
 // Import data
 import SpotifyNowPlaying from "./components/SpotifyNowPlaying"
@@ -93,6 +94,9 @@ export default function Portfolio() {
         toggleTheme={toggleTheme} 
         scrollToSection={scrollToSection} 
       />
+
+      {/* Section Indicator */}
+      <SectionIndicator isDark={isDark} scrollToSection={scrollToSection} />
 
       {/* Hero Section */}
       <Hero isDark={isDark} backgroundY={backgroundY} />
