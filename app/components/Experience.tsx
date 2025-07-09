@@ -1,16 +1,21 @@
 "use client"
 
 import { motion } from "framer-motion"
-import { Briefcase } from "lucide-react"
+import { Briefcase, ChevronDown, ChevronUp } from "lucide-react"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
+import { Button } from "@/components/ui/button"
 import { experiences } from "../data/experiences"
+import { useState } from "react"
 
 interface ExperienceProps {
   isDark: boolean
 }
 
 export function Experience({ isDark }: ExperienceProps) {
+  const [showAll, setShowAll] = useState(false)
+  const displayedExperiences = showAll ? experiences : experiences.slice(0, 3)
+
   return (
     <section id="experience" className="py-20">
       <div className="container mx-auto px-6">
@@ -29,7 +34,7 @@ export function Experience({ isDark }: ExperienceProps) {
 
         <div className="relative">
           <div className="absolute left-1/2 transform -translate-x-1/2 w-1 h-full bg-gradient-to-b from-sky-400 to-blue-600"></div>
-          {experiences.map((exp, index) => (
+          {displayedExperiences.map((exp, index) => (
             <motion.div
               key={index}
               initial={{ opacity: 0, y: 50 }}
@@ -85,6 +90,38 @@ export function Experience({ isDark }: ExperienceProps) {
             </motion.div>
           ))}
         </div>
+
+        {/* See More/Less Button */}
+        {experiences.length > 3 && (
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.5 }}
+            className="text-center mt-8"
+          >
+            <Button
+              onClick={() => setShowAll(!showAll)}
+              variant="outline"
+              className={`${
+                isDark 
+                  ? "border-gray-600 text-gray-300 hover:bg-gray-700 hover:text-gray-100" 
+                  : "border-gray-300 text-gray-600 hover:bg-gray-50"
+              } transition-all duration-300`}
+            >
+              {showAll ? (
+                <>
+                  <ChevronUp className="w-4 h-4 mr-2" />
+                  Show Less
+                </>
+              ) : (
+                <>
+                  <ChevronDown className="w-4 h-4 mr-2" />
+                  See More ({experiences.length - 3} more)
+                </>
+              )}
+            </Button>
+          </motion.div>
+        )}
       </div>
     </section>
   )

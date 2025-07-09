@@ -4,7 +4,11 @@ import { motion } from "framer-motion"
 import { Button } from "@/components/ui/button"
 import { Mail, Linkedin, Github, X } from "lucide-react"
 import SpotifyNowPlaying from "../components/SpotifyNowPlaying"
-import { Dispatch, SetStateAction } from "react"
+import { Dispatch, SetStateAction, useState } from "react"
+import { useForm } from "react-hook-form"
+import { zodResolver } from "@hookform/resolvers/zod"
+import * as z from "zod"
+import { toast } from "sonner"
 
 interface ContactProps {
   isDark: boolean
@@ -12,7 +16,55 @@ interface ContactProps {
   setShowSpotifySection: Dispatch<SetStateAction<boolean>>
 }
 
+// Form validation schema
+const contactSchema = z.object({
+  name: z.string().min(2, "Name must be at least 2 characters"),
+  email: z.string().email("Please enter a valid email address"),
+  subject: z.string().min(5, "Subject must be at least 5 characters"),
+  message: z.string().min(10, "Message must be at least 10 characters")
+})
+
+type ContactFormData = z.infer<typeof contactSchema>
+
 export function Contact({ isDark, showSpotifySection, setShowSpotifySection }: ContactProps) {
+  const [isSubmitting, setIsSubmitting] = useState(false)
+  
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors }
+  } = useForm<ContactFormData>({
+    resolver: zodResolver(contactSchema)
+  })
+
+  const onSubmit = async (data: ContactFormData) => {
+    setIsSubmitting(true)
+    
+    try {
+      const response = await fetch('/api/contact', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data),
+      })
+
+      const result = await response.json()
+
+      if (response.ok) {
+        toast.success('Message sent successfully!')
+        reset()
+      } else {
+        toast.error(result.error || 'Failed to send message')
+      }
+    } catch (error) {
+      toast.error('Failed to send message. Please try again.')
+    } finally {
+      setIsSubmitting(false)
+    }
+  }
+
   return (
     <section id="contact" className="py-20 relative overflow-hidden">
       {/* Background decoration */}
@@ -110,35 +162,43 @@ export function Contact({ isDark, showSpotifySection, setShowSpotifySection }: C
                 <h3 className={`text-2xl font-semibold ${isDark ? "text-gray-100" : "text-gray-800"} mb-6`}>
                   Send a Message
                 </h3>
-                <form className="space-y-6">
+                <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
                   <div className="grid md:grid-cols-2 gap-6">
                     <div>
                       <label className={`block text-sm font-medium mb-2 ${isDark ? "text-gray-300" : "text-gray-700"}`}>
                         Name
                       </label>
                       <input
+                        {...register("name")}
                         type="text"
                         className={`w-full px-4 py-3 rounded-lg border transition-colors ${
                           isDark 
                             ? "bg-gray-700 border-gray-600 text-gray-100 placeholder-gray-400 focus:border-sky-500" 
                             : "bg-white border-gray-300 text-gray-800 placeholder-gray-500 focus:border-sky-400"
-                        }`}
+                        } ${errors.name ? "border-red-500" : ""}`}
                         placeholder="Your name"
                       />
+                      {errors.name && (
+                        <p className="text-red-500 text-sm mt-1">{errors.name.message}</p>
+                      )}
                     </div>
                     <div>
                       <label className={`block text-sm font-medium mb-2 ${isDark ? "text-gray-300" : "text-gray-700"}`}>
                         Email
                       </label>
                       <input
+                        {...register("email")}
                         type="email"
                         className={`w-full px-4 py-3 rounded-lg border transition-colors ${
                           isDark 
                             ? "bg-gray-700 border-gray-600 text-gray-100 placeholder-gray-400 focus:border-sky-500" 
                             : "bg-white border-gray-300 text-gray-800 placeholder-gray-500 focus:border-sky-400"
-                        }`}
+                        } ${errors.email ? "border-red-500" : ""}`}
                         placeholder="your.email@example.com"
                       />
+                      {errors.email && (
+                        <p className="text-red-500 text-sm mt-1">{errors.email.message}</p>
+                      )}
                     </div>
                   </div>
                   <div>
@@ -146,35 +206,44 @@ export function Contact({ isDark, showSpotifySection, setShowSpotifySection }: C
                       Subject
                     </label>
                     <input
+                      {...register("subject")}
                       type="text"
                       className={`w-full px-4 py-3 rounded-lg border transition-colors ${
                         isDark 
                           ? "bg-gray-700 border-gray-600 text-gray-100 placeholder-gray-400 focus:border-sky-500" 
                           : "bg-white border-gray-300 text-gray-800 placeholder-gray-500 focus:border-sky-400"
-                      }`}
+                      } ${errors.subject ? "border-red-500" : ""}`}
                       placeholder="What's this about?"
                     />
+                    {errors.subject && (
+                      <p className="text-red-500 text-sm mt-1">{errors.subject.message}</p>
+                    )}
                   </div>
                   <div>
                     <label className={`block text-sm font-medium mb-2 ${isDark ? "text-gray-300" : "text-gray-700"}`}>
                       Message
                     </label>
                     <textarea
+                      {...register("message")}
                       rows={5}
                       className={`w-full px-4 py-3 rounded-lg border transition-colors resize-none ${
                         isDark 
                           ? "bg-gray-700 border-gray-600 text-gray-100 placeholder-gray-400 focus:border-sky-500" 
                           : "bg-white border-gray-300 text-gray-800 placeholder-gray-500 focus:border-sky-400"
-                      }`}
+                      } ${errors.message ? "border-red-500" : ""}`}
                       placeholder="Share your thoughts, questions, or just drop a friendly message to let me know you were here!"
                     />
+                    {errors.message && (
+                      <p className="text-red-500 text-sm mt-1">{errors.message.message}</p>
+                    )}
                   </div>
                   <Button 
                     type="submit" 
-                    className="w-full bg-gradient-to-r from-sky-600 to-blue-600 hover:from-sky-700 hover:to-blue-700 text-white py-3"
+                    disabled={isSubmitting}
+                    className="w-full bg-gradient-to-r from-sky-600 to-blue-600 hover:from-sky-700 hover:to-blue-700 text-white py-3 disabled:opacity-50 disabled:cursor-not-allowed"
                   >
                     <Mail className="w-5 h-5 mr-2" />
-                    Send Message
+                    {isSubmitting ? "Sending..." : "Send Message"}
                   </Button>
                 </form>
               </div>

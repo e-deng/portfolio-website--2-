@@ -56,4 +56,17 @@ export const experiences: Experience[] = [
       "Adapted teaching methods to engage diverse learning styles and age-appropriate content delivery"
     ]
   },
+  {
+    title: "Swim Instructor / Lifeguard",
+    company: "City of Markham",
+    period: "September 2019 - May 2020",
+    description: "Taught swimming lessons and ensured the safety of all pool patrons by enforcing safety protocols and responding to emergencies.",
+    technologies: [],
+    achievements: [
+      "Taught over 10 different swimming levels, including pre-National Lifeguard course, to students of all ages and abilities",
+      "Prepared and delivered engaging lesson plans for preschool, youth, and adult classes, adapting instruction to individual needs",
+      "Ensured patron safety by enforcing pool regulations and responding promptly to emergencies",
+      "Organized and led swim assessments, progress reports, and parent communications"
+    ]
+  },
 ] 

@@ -10,17 +10,17 @@ export interface Education {
 
 export const education: Education[] = [
   {
-    institution: "University of Toronto",
-    degree: "Bachelor of Science in Computer Science",
-    period: "2021 - 2025",
-    gpa: "3.8/4.0",
+    institution: "University of Western Ontario",
+    degree: "Bachelor of Engineering Science in Software Engineering",
+    period: "2020 - 2025",
+    gpa: "3.7/4.0",
     coursework: [
       "Data Structures & Algorithms",
-      "Software Engineering", 
+      "Web Development", 
       "Database Systems",
-      "Computer Networks",
+      "Project Management",
       "Operating Systems",
-      "Machine Learning"
+      "Machine Learning/AI"
     ],
     achievements: [
       "Computer Science Club President (2023-2024)",
@@ -29,6 +29,6 @@ export const education: Education[] = [
       "Research Assistant in Machine Learning Lab",
       "Published paper on \"Efficient Algorithms for Graph Processing\""
     ],
-    honors: ["Dean's List: 2022, 2023, 2024"]
+    honors: ["Dean's List"]
   }
 ] 
