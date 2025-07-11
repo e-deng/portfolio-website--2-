@@ -37,6 +37,7 @@ import { Footer } from "./components/Footer"
 import { Navigation } from "./components/Navigation"
 import { Skills } from "./components/Skills"
 import { SectionIndicator } from "./components/SectionIndicator"
+import { WorkInProgress } from "./components/WorkInProgress"
 
 // Import data
 import SpotifyNowPlaying from "./components/SpotifyNowPlaying"
@@ -79,6 +80,9 @@ export default function Portfolio() {
 
   return (
     <div className={`min-h-screen ${isDark ? "dark bg-gray-950" : "bg-gradient-to-br from-sky-50 to-blue-100"}`}>
+      {/* Work in Progress Banner */}
+      <WorkInProgress isDark={isDark} />
+      
       {/* Custom cursor */}
       <GlitterCursor isDark={isDark} />
 

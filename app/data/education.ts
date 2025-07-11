@@ -23,11 +23,7 @@ export const education: Education[] = [
       "Machine Learning/AI"
     ],
     achievements: [
-      "Computer Science Club President (2023-2024)",
-      "Hackathon Winner - TechHacks 2023",
-      "Teaching Assistant for Data Structures (2023)",
-      "Research Assistant in Machine Learning Lab",
-      "Published paper on \"Efficient Algorithms for Graph Processing\""
+      "To be added"
     ],
     honors: ["Dean's List"]
   }
