@@ -47,6 +47,7 @@ export default function Portfolio() {
   const [isMobile, setIsMobile] = useState(false)
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   const [showSpotifySection, setShowSpotifySection] = useState(false)
+  const [showWorkInProgress, setShowWorkInProgress] = useState(true)
   const { theme, setTheme } = useTheme()
   const { scrollY } = useScroll()
   const backgroundY = useTransform(scrollY, [0, 1000], [0, 300])
@@ -81,7 +82,9 @@ export default function Portfolio() {
   return (
     <div className={`min-h-screen ${isDark ? "dark bg-gray-950" : "bg-gradient-to-br from-sky-50 to-blue-100"}`}>
       {/* Work in Progress Banner */}
-      <WorkInProgress isDark={isDark} />
+      {showWorkInProgress && (
+        <WorkInProgress isDark={isDark} onClose={() => setShowWorkInProgress(false)} />
+      )}
       
       {/* Custom cursor */}
       <GlitterCursor isDark={isDark} />
