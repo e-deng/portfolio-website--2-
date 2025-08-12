@@ -22,6 +22,8 @@ async function getAccessToken() {
   }
 
   try {
+    console.log('Attempting to get Spotify access token...')
+    
     const controller = new AbortController()
     const timeoutId = setTimeout(() => controller.abort(), 15000) // 15 second timeout
 
@@ -39,6 +41,7 @@ async function getAccessToken() {
     })
 
     clearTimeout(timeoutId)
+    console.log('Token response status:', response.status)
 
     if (!response.ok) {
       const errorText = await response.text()
@@ -47,24 +50,43 @@ async function getAccessToken() {
         statusText: response.statusText,
         body: errorText
       })
-      throw new Error(`Spotify token request failed: ${response.status} ${response.statusText}`)
+      throw new Error(`Spotify token request failed: ${response.status} ${response.statusText} - ${errorText}`)
     }
 
     const data = await response.json()
+    console.log('Token response data received')
+    
     if (data.error) {
       console.error('Spotify token error in response:', data)
       throw new Error(`Spotify token error: ${data.error} - ${data.error_description}`)
     }
+    
+    console.log('Access token obtained successfully, length:', data.access_token?.length || 0)
     return data.access_token
   } catch (error) {
     console.error('Error getting Spotify access token:', error)
-    throw error
+    
+    // Re-throw with more context
+    if (error instanceof Error) {
+      throw new Error(`Access token error: ${error.message}`)
+    } else {
+      throw new Error(`Access token error: ${String(error)}`)
+    }
   }
 }
 
 export async function GET() {
   try {
     console.log('Spotify API called, checking credentials...')
+    
+    // Log credential status for debugging
+    console.log('Credential check:', {
+      hasClientId: !!CLIENT_ID,
+      hasClientSecret: !!CLIENT_SECRET,
+      hasRefreshToken: !!REFRESH_TOKEN,
+      clientIdLength: CLIENT_ID?.length || 0,
+      refreshTokenLength: REFRESH_TOKEN?.length || 0
+    })
     
     const accessToken = await getAccessToken()
     console.log('Access token obtained successfully')
@@ -75,6 +97,7 @@ export async function GET() {
 
     let currentTrack = null
     try {
+      console.log('Fetching currently playing track...')
       const currentResponse = await fetch("https://api.spotify.com/v1/me/player/currently-playing", {
         headers: {
           Authorization: `Bearer ${accessToken}`,
@@ -83,6 +106,7 @@ export async function GET() {
       })
 
       clearTimeout(currentTimeoutId)
+      console.log('Currently playing response status:', currentResponse.status)
 
       if (currentResponse.status !== 204 && currentResponse.status <= 400) {
         const currentData = await currentResponse.json()
@@ -94,9 +118,15 @@ export async function GET() {
             songUrl: currentData.item.external_urls.spotify,
             isPlaying: currentData.is_playing,
           }
+          console.log('Current track data:', currentTrack)
+        } else {
+          console.log('No currently playing track')
         }
       } else {
-        console.log('No currently playing track or API error:', currentResponse.status)
+        console.log('Currently playing API error status:', currentResponse.status)
+        if (currentResponse.status === 401) {
+          console.log('Unauthorized - token might be expired')
+        }
       }
     } catch (currentError) {
       console.error('Error fetching current track:', currentError)
@@ -109,6 +139,7 @@ export async function GET() {
 
     let recentTracks = []
     try {
+      console.log('Fetching top tracks...')
       const topTracksResponse = await fetch("https://api.spotify.com/v1/me/top/tracks?limit=5&time_range=short_term", {
         headers: {
           Authorization: `Bearer ${accessToken}`,
@@ -117,6 +148,7 @@ export async function GET() {
       })
 
       clearTimeout(topTracksTimeoutId)
+      console.log('Top tracks response status:', topTracksResponse.status)
 
       if (topTracksResponse.status <= 400) {
         const topTracksData = await topTracksResponse.json()
@@ -128,11 +160,18 @@ export async function GET() {
             songUrl: item.external_urls.spotify,
             playedAt: null,
           }))
+          console.log('Top tracks data:', recentTracks.length, 'tracks')
+        } else {
+          console.log('No top tracks found')
         }
       } else {
-        console.log('Top tracks API error:', topTracksResponse.status)
+        console.log('Top tracks API error status:', topTracksResponse.status)
+        if (topTracksResponse.status === 401) {
+          console.log('Unauthorized - token might be expired')
+        }
         // Fallback to medium term if short term fails
         try {
+          console.log('Trying medium term fallback...')
           const mediumTermResponse = await fetch("https://api.spotify.com/v1/me/top/tracks?limit=5&time_range=medium_term", {
             headers: {
               Authorization: `Bearer ${accessToken}`,
@@ -140,6 +179,7 @@ export async function GET() {
             signal: topTracksController.signal,
           })
           
+          console.log('Medium term response status:', mediumTermResponse.status)
           if (mediumTermResponse.status <= 400) {
             const mediumTermData = await mediumTermResponse.json()
             if (mediumTermData.items && mediumTermData.items.length > 0) {
@@ -150,6 +190,7 @@ export async function GET() {
                 songUrl: item.external_urls.spotify,
                 playedAt: null,
               }))
+              console.log('Medium term tracks data:', recentTracks.length, 'tracks')
             }
           }
         } catch (fallbackError) {
@@ -161,6 +202,8 @@ export async function GET() {
       // Continue with empty tracks array
     }
 
+    console.log('Final data:', { hasCurrentTrack: !!currentTrack, recentTracksCount: recentTracks.length })
+
     // Return data even if some parts failed
     return NextResponse.json({
       currentTrack,
@@ -170,6 +213,11 @@ export async function GET() {
       success: true,
       hasCurrentTrack: !!currentTrack,
       hasRecentTracks: recentTracks.length > 0,
+      debug: {
+        accessTokenLength: accessToken.length,
+        currentTrackStatus: currentTrack ? 'found' : 'not found',
+        recentTracksStatus: recentTracks.length > 0 ? `${recentTracks.length} tracks` : 'no tracks'
+      }
     }, {
       headers: {
         'Cache-Control': 'no-cache, no-store, must-revalidate, max-age=0',
@@ -192,6 +240,10 @@ export async function GET() {
         // Provide fallback data structure
         currentTrack: null,
         recentTracks: [],
+        debug: {
+          errorType: error instanceof Error ? error.constructor.name : typeof error,
+          errorMessage: error instanceof Error ? error.message : String(error)
+        }
       },
       { status: 500 }
     )
