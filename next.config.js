@@ -11,7 +11,7 @@ const nextConfig = {
   },
   // Cloudflare Pages compatibility
   experimental: {
-    serverComponentsExternalPackages: ['nodemailer'],
+    // Configure runtime for different routes
   },
 }
 

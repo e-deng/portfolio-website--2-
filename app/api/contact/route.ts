@@ -1,5 +1,4 @@
 import { NextRequest, NextResponse } from 'next/server'
-import nodemailer from 'nodemailer'
 
 export const runtime = 'edge'
 
@@ -15,50 +14,56 @@ export async function POST(request: NextRequest) {
       )
     }
 
-    // Create transporter using Gmail SMTP
-    const transporter = nodemailer.createTransport({
-      service: 'gmail',
-      auth: {
-        user: process.env.GMAIL_USER, // Your Gmail address
-        pass: process.env.GMAIL_APP_PASSWORD // Gmail app password
-      }
-    })
-
-    // Email content
-    const mailOptions = {
-      from: process.env.GMAIL_USER,
-      to: 'emen.dengg@gmail.com',
-      subject: `Portfolio Contact: ${subject}`,
-      html: `
-        <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
-          <h2 style="color: #0ea5e9;">New Contact Form Submission</h2>
-          <div style="background-color: #f8fafc; padding: 20px; border-radius: 8px; margin: 20px 0;">
-            <p><strong>Name:</strong> ${name}</p>
-            <p><strong>Email:</strong> ${email}</p>
-            <p><strong>Subject:</strong> ${subject}</p>
-            <p><strong>Message:</strong></p>
-            <div style="background-color: white; padding: 15px; border-radius: 4px; margin-top: 10px;">
-              ${message.replace(/\n/g, '<br>')}
-            </div>
-          </div>
-          <p style="color: #64748b; font-size: 14px;">
-            This message was sent from your portfolio website contact form.
-          </p>
-        </div>
-      `
+    // Validate email format
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+    if (!emailRegex.test(email)) {
+      return NextResponse.json(
+        { error: 'Invalid email format' },
+        { status: 400 }
+      )
     }
 
-    // Send email
-    await transporter.sendMail(mailOptions)
+    // Validate input lengths
+    if (name.length > 100 || subject.length > 200 || message.length > 2000) {
+      return NextResponse.json(
+        { error: 'Input too long' },
+        { status: 400 }
+      )
+    }
 
+    // For now, just log the contact form submission
+    // In production, you can integrate with:
+    // 1. Cloudflare Email Routing
+    // 2. A webhook service like Zapier
+    // 3. A third-party email service with Edge Runtime support
+    
+    console.log('Contact form submission:', {
+      name,
+      email,
+      subject,
+      message,
+      timestamp: new Date().toISOString()
+    })
+
+    // TODO: Implement actual email sending
+    // For now, return success but note that email is not sent
     return NextResponse.json(
-      { message: 'Message sent successfully!' },
+      { 
+        message: 'Message received! (Note: Email functionality not yet implemented in Edge Runtime)',
+        received: true,
+        timestamp: new Date().toISOString()
+      },
       { status: 200 }
     )
   } catch (error) {
     console.error('Contact form error:', error)
+    
+    const errorMessage = process.env.NODE_ENV === 'development' 
+      ? (error instanceof Error ? error.message : String(error))
+      : 'Failed to process message. Please try again.'
+    
     return NextResponse.json(
-      { error: 'Failed to send message. Please try again.' },
+      { error: errorMessage },
       { status: 500 }
     )
   }
