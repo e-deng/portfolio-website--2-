@@ -9,7 +9,7 @@ const nextConfig = {
   images: {
     unoptimized: true,
   },
-  // Production optimizations for API routes
+  // Cloudflare Pages compatibility
   experimental: {
     serverComponentsExternalPackages: ['nodemailer'],
   },

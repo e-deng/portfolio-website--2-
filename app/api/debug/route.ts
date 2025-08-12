@@ -1,5 +1,7 @@
 import { NextResponse } from 'next/server'
 
+export const runtime = 'edge'
+
 export async function GET() {
   const hasClientId = !!process.env.SPOTIFY_CLIENT_ID
   const hasClientSecret = !!process.env.SPOTIFY_CLIENT_SECRET
