@@ -13,7 +13,7 @@ export const education: Education[] = [
     institution: "University of Western Ontario",
     degree: "Bachelor of Engineering Science in Software Engineering",
     period: "2020 - 2025",
-    gpa: "3.7/4.0",
+    gpa: "/4.0",
     coursework: [
       "Data Structures & Algorithms",
       "Web Development", 

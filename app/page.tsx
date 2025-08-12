@@ -26,7 +26,6 @@ import { TypewriterText } from "./components/TypewriterText"
 import { AnimatedCounter } from "./components/AnimatedCounter"
 import { TechLogoGrid } from "./components/TechLogoGrid"
 import { FloatingElements } from "./components/FloatingElements"
-import { GlitterCursor } from "./components/GlitterCursor"
 import { Education } from "./components/Education"
 import { Experience } from "./components/Experience"
 import { About } from "./components/About"
@@ -86,9 +85,6 @@ export default function Portfolio() {
         <WorkInProgress isDark={isDark} onClose={() => setShowWorkInProgress(false)} />
       )}
       
-      {/* Custom cursor */}
-      <GlitterCursor isDark={isDark} />
-
       {/* Floating elements */}
       <FloatingElements isDark={isDark} />
 
