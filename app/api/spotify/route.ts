@@ -13,7 +13,10 @@ async function getAccessToken() {
     console.error('Missing Spotify credentials:', {
       hasClientId: !!CLIENT_ID,
       hasClientSecret: !!CLIENT_SECRET,
-      hasRefreshToken: !!REFRESH_TOKEN
+      hasRefreshToken: !!REFRESH_TOKEN,
+      clientIdLength: CLIENT_ID?.length || 0,
+      clientSecretLength: CLIENT_SECRET?.length || 0,
+      refreshTokenLength: REFRESH_TOKEN?.length || 0
     })
     throw new Error('Missing Spotify credentials')
   }
@@ -26,7 +29,7 @@ async function getAccessToken() {
       method: 'POST',
       headers: {
         'Content-Type': 'application/x-www-form-urlencoded',
-        'Authorization': 'Basic ' + Buffer.from(CLIENT_ID + ':' + CLIENT_SECRET).toString('base64'),
+        'Authorization': 'Basic ' + btoa(CLIENT_ID + ':' + CLIENT_SECRET), // Use btoa for Edge Runtime
       },
       body: new URLSearchParams({
         grant_type: 'refresh_token',
@@ -38,10 +41,20 @@ async function getAccessToken() {
     clearTimeout(timeoutId)
 
     if (!response.ok) {
+      const errorText = await response.text()
+      console.error('Spotify token response error:', {
+        status: response.status,
+        statusText: response.statusText,
+        body: errorText
+      })
       throw new Error(`Spotify token request failed: ${response.status} ${response.statusText}`)
     }
 
     const data = await response.json()
+    if (data.error) {
+      console.error('Spotify token error in response:', data)
+      throw new Error(`Spotify token error: ${data.error} - ${data.error_description}`)
+    }
     return data.access_token
   } catch (error) {
     console.error('Error getting Spotify access token:', error)
@@ -51,7 +64,10 @@ async function getAccessToken() {
 
 export async function GET() {
   try {
+    console.log('Spotify API called, checking credentials...')
+    
     const accessToken = await getAccessToken()
+    console.log('Access token obtained successfully')
     
     // Fetch currently playing track with timeout
     const currentController = new AbortController()
@@ -79,6 +95,8 @@ export async function GET() {
             isPlaying: currentData.is_playing,
           }
         }
+      } else {
+        console.log('No currently playing track or API error:', currentResponse.status)
       }
     } catch (currentError) {
       console.error('Error fetching current track:', currentError)
@@ -112,6 +130,7 @@ export async function GET() {
           }))
         }
       } else {
+        console.log('Top tracks API error:', topTracksResponse.status)
         // Fallback to medium term if short term fails
         try {
           const mediumTermResponse = await fetch("https://api.spotify.com/v1/me/top/tracks?limit=5&time_range=medium_term", {
@@ -142,11 +161,15 @@ export async function GET() {
       // Continue with empty tracks array
     }
 
+    // Return data even if some parts failed
     return NextResponse.json({
       currentTrack,
       recentTracks,
       timestamp: new Date().toISOString(),
       environment: process.env.NODE_ENV,
+      success: true,
+      hasCurrentTrack: !!currentTrack,
+      hasRecentTracks: recentTracks.length > 0,
     }, {
       headers: {
         'Cache-Control': 'no-cache, no-store, must-revalidate, max-age=0',
@@ -157,10 +180,18 @@ export async function GET() {
     })
   } catch (error) {
     console.error('Spotify API error:', error)
+    
+    // Return a more helpful error response
     return NextResponse.json(
       { 
         error: 'Failed to fetch Spotify data',
-        details: process.env.NODE_ENV === 'development' ? (error instanceof Error ? error.message : String(error)) : 'Internal server error'
+        details: process.env.NODE_ENV === 'development' ? (error instanceof Error ? error.message : String(error)) : 'Internal server error',
+        timestamp: new Date().toISOString(),
+        environment: process.env.NODE_ENV,
+        success: false,
+        // Provide fallback data structure
+        currentTrack: null,
+        recentTracks: [],
       },
       { status: 500 }
     )
