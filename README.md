@@ -1,5 +1,7 @@
 # Portfolio Website
 
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+
 Hi there! 👋 I'm a passionate developer who loves creating beautiful and functional web experiences. This portfolio showcases my journey in web development, featuring projects that blend creativity with technical expertise.
 
 ## ✨ What Makes This Website Special
@@ -8,7 +10,7 @@ This portfolio isn't just another developer website - it's a carefully crafted e
 
 - 🌸 **Cute design** - Because who says tech can't be adorable?
 - 🌙 **Night/space theme for dark mode** - Perfect for late-night coding sessions
-- ✨ **Glitter cursor trail** - Adds a magical touch to every interaction
+- ✨ **Smooth animations** - Adds a magical touch to every interaction
 - 🎨 **Smooth animations with Framer Motion** - Because life is better with motion
 - 📱 **Fully responsive design** - Looks great on any device
 - 🎯 **Modern tech stack showcase** - Built with the latest technologies
@@ -40,13 +42,13 @@ This portfolio was built using modern web technologies and best practices:
 - Interactive project showcase with smooth transitions
 - Smooth scrolling navigation for seamless browsing
 - Dark/light mode toggle for user preference
-- Custom glitter cursor that follows your mouse
+- Smooth hover effects and transitions
 - Floating background elements for visual depth
 - Contact form with email integration and validation
 
 ## 🚀 Getting Started
 
-This portfolio is deployed on Vercel and can be accessed at: [https://portfolio-three-mu-40.vercel.app/](https://portfolio-three-mu-40.vercel.app/)
+This portfolio is deployed on CloudFlare. It can be access at: emendeng.me
 
 To run this project locally:
 
@@ -107,3 +109,9 @@ To enable the Spotify "Now Playing" feature:
 5. Add all credentials to your `.env.local` file
 
 The Spotify integration will show your currently playing track and top tracks from the last 4 weeks!
+
+## 📄 License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+The MIT License is a permissive license that allows others to use, modify, and distribute your code with very few restrictions. It's perfect for open-source projects and portfolios!
