@@ -99,7 +99,7 @@ export const projects: Project[] = [
     description:
       "A community website for Swifties to log, share, and discuss Taylor Swift easter eggs they discover. Users can interact, post their findings, and connect with fellow fans.",
     longDescription:
-      "A beautiful, interactive showcase of Taylor Swift Easter eggs and hidden clues discovered by Swifties around the world. Built with a MERN-style architecture using an Express.js backend, React frontend with Tailwind CSS, and Supabase (PostgreSQL) as the real-time database. The project features RESTful API endpoints, real-time updates, and a modern, collaborative user experience.",
+      "An interactive showcase of Taylor Swift Easter eggs and hidden clues discovered by Swifties around the world. Built with a MERN-style architecture using an Express.js backend, React frontend with Tailwind CSS, and Supabase (PostgreSQL) as the real-time database. The project features RESTful API endpoints, real-time updates, and a modern, collaborative user experience. DATABASE TEMPORARILY DOWN DUE TO INACTIVITY",
     tech: ["React", "Express.js", "Tailwind CSS", "Supabase", "PostgreSQL", "GitHub"],
     features: [
       "User-submitted Easter eggs",
@@ -109,9 +109,9 @@ export const projects: Project[] = [
       "Profile and achievement badges",
     ],
     github: "https://github.com/e-deng/eggs",
-    demo: "",
+    demo: "https://eggs-8vv.pages.dev",
     image: "/placeholder.svg?height=300&width=400",
-    status: "In Progress",
+    status: "Completed",
     timeline: "1 month",
   },
   {

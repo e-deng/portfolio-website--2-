@@ -15,13 +15,11 @@ export const experiences: Experience[] = [
     description: "Enhanced website performance and built responsive company website with custom styling. To be updated!",
     technologies: ["Carrd", "SEO Tools", "Deep Research Tools"],
     achievements: [
-      "Created automated workflows for managing files and data in S3 and Supabase",
-      "Developed a webpage to view and access stored data (PDFs and audiobooks)",      
-      "Enhanced website SEO performance by 75% (from 40 to 70 score)",
-      "Built responsive company website using Carrd with custom styling",
-      "Conducted comprehensive research using multiple AI models to generate detailed book summary notes"
-    ]
-  },
+      "Built and deployed full-stack web solutions with Next.js, Node.js, and PostgreSQL, delivering responsive UIs and secure APIs.",
+      "Managed backend integrations, enabling seamless data exchange between APIs, databases, and external systems.",
+      "Created automated n8n workflows to generate AI-powered book summaries and audiobooks, streamlining content creation.",
+      "Tested and improved workflows and features for high reliability and performance.",
+      "Raised website SEO score from 40 to 70 through targeted keyword research and technical optimizations."
   {
     title: "Freelance",
     company: "Freelance",
