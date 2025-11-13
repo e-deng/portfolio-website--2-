@@ -20,6 +20,8 @@ export const experiences: Experience[] = [
       "Created automated n8n workflows to generate AI-powered book summaries and audiobooks, streamlining content creation.",
       "Tested and improved workflows and features for high reliability and performance.",
       "Raised website SEO score from 40 to 70 through targeted keyword research and technical optimizations."
+    ]
+  },
   {
     title: "Freelance",
     company: "Freelance",
