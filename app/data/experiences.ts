@@ -9,12 +9,14 @@ export interface Experience {
 
 export const experiences: Experience[] = [
   {
-    title: "Software Engineering Intern",
+    title: "Full Stack Intern",
     company: "Intellectra AI.",
     period: "June 2025 - Present",
     description: "Enhanced website performance and built responsive company website with custom styling. To be updated!",
     technologies: ["Carrd", "SEO Tools", "Deep Research Tools"],
     achievements: [
+      "Created automated workflows for managing files and data in S3 and Supabase",
+      "Developed a webpage to view and access stored data (PDFs and audiobooks)",      
       "Enhanced website SEO performance by 75% (from 40 to 70 score)",
       "Built responsive company website using Carrd with custom styling",
       "Conducted comprehensive research using multiple AI models to generate detailed book summary notes"
@@ -23,13 +25,25 @@ export const experiences: Experience[] = [
   {
     title: "Freelance",
     company: "Freelance",
-    period: "February 2023 - Present",
-    description: "Built custom solutions for small businesses and startups",
+    period: "February 2023 - February 2023",
+    description: "Built custom webpage for Jeemca modular homes",
     technologies: ["Next.js", "React", "TypeScript", "Tailwind CSS"],
     achievements: [
       "Developed clean, maintainable code for multiple client websites using Next.js, React, and TypeScript",
       "Implemented responsive design principles and cross-browser compatibility ensuring optimal user experience across all devices",
       "Collaborated with various development teams and stakeholders to create dynamic, user-friendly interfaces with modern UI/UX patterns"
+    ]
+  },
+  {
+    title: "Marketing Director",
+    company: "Hack the 6ix",
+    period: "November 2023 - Present",
+    description: "Led marketing strategy, managed social media campaigns, and grew event reach and engagement.",
+    technologies: [],
+    achievements: [
+      "Grew social media following by 1,000+ in the past year, driving record engagement and reach",
+      "Achieved over 300,000 impressions on Instagram through targeted campaigns and content strategy",
+      "Increased event and volunteer applications to all-time highs through effective marketing initiatives"
     ]
   },
   {
