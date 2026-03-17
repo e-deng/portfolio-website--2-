@@ -9,17 +9,15 @@ export interface Experience {
 
 export const experiences: Experience[] = [
   {
-    title: "Full Stack Intern",
+    title: "Full Stack Developer",
     company: "Intellectra AI.",
-    period: "June 2025 - Present",
+    period: "June 2025 - February 2026",
     description: "Enhanced website performance and built responsive company website with custom styling. To be updated!",
-    technologies: ["Carrd", "SEO Tools", "Deep Research Tools"],
+    technologies: ["Python","Next.js", "PostgreSQL", "n8n", "supabase"],
     achievements: [
-      "Built and deployed full-stack web solutions with Next.js, Node.js, and PostgreSQL, delivering responsive UIs and secure APIs.",
-      "Managed backend integrations, enabling seamless data exchange between APIs, databases, and external systems.",
-      "Created automated n8n workflows to generate AI-powered book summaries and audiobooks, streamlining content creation.",
-      "Tested and improved workflows and features for high reliability and performance.",
-      "Raised website SEO score from 40 to 70 through targeted keyword research and technical optimizations."
+      "Developed 8 production web pages and full-stack features using Next.js, React, and Supabase, delivering scalable UI components and backend integrations for an AI-powered content platform.",
+      "Deployed 2 core platform features (AI audiobook generation and book summarization), integrating frontend interfaces with automation pipelines capable of processing large multi-chapter book files.",
+      "Implemented backend integrations with Supabase/PostgreSQL and workflow automation, enabling efficient data retrieval, API communication, and reliable AI-driven content generation."
     ]
   },
   {
@@ -29,15 +27,15 @@ export const experiences: Experience[] = [
     description: "Built custom webpage for Jeemca modular homes",
     technologies: ["Next.js", "React", "TypeScript", "Tailwind CSS"],
     achievements: [
-      "Developed clean, maintainable code for multiple client websites using Next.js, React, and TypeScript",
-      "Implemented responsive design principles and cross-browser compatibility ensuring optimal user experience across all devices",
-      "Collaborated with various development teams and stakeholders to create dynamic, user-friendly interfaces with modern UI/UX patterns"
+      "Created 2 responsive web pages utilizing Next.js and React, delivering seamless user experiences across all devices.",
+      "Translated wireframes and design mockups into production-ready frontend features, maintaining visual consistency.",
+      "Performed cross-browser testing and debugging to identify and resolve compatibility issues and improve frontend stability"
     ]
   },
   {
     title: "Marketing Director",
     company: "Hack the 6ix",
-    period: "November 2023 - Present",
+    period: "November 2023 - October 2025",
     description: "Led marketing strategy, managed social media campaigns, and grew event reach and engagement.",
     technologies: [],
     achievements: [
@@ -53,9 +51,8 @@ export const experiences: Experience[] = [
     description: "Assisted in teaching data structures and algorithms courses",
     technologies: ["Excel", "Microsoft Teams"],
     achievements: [
-      "Translated and updated product database labels for international market accessibility",
-      "Collaborated with team members remotely to ensure accurate product information",
-      "Improved database organization and data quality through systematic translation and categorization of 10000+ product entries"
+      "Translated and updated 10,000+ product database entries, improving international accessibility and overall data quality.",
+      "Collaborated remotely with team members to ensure accuracy and consistency of multilingual product information."
     ]
   },
   {

@@ -62,7 +62,7 @@ export function Footer({ isDark, showSpotifySection, setShowSpotifySection }: Fo
             </motion.a>
           </div>
           <div className="mt-8 pt-8 border-t border-gray-800 text-gray-500">
-            © 2024 Emen. Made with ❤️ and lots of ☕
+            © 2026 Emen. Made with ❤️ and lots of ☕
             <br />
             <button
               onClick={() => setShowSpotifySection(!showSpotifySection)}
